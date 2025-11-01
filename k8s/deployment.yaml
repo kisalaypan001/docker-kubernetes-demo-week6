@@ -1,0 +1,26 @@
+# File: k8s/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iris-api-deployment # Referenced by K8S_DEPLOYMENT_NAME in the GitHub Action
+  labels:
+    app: iris-classifier
+spec:
+  replicas: 2 # Maintain 2 instances of your API for high availability
+  selector:
+    matchLabels:
+      app: iris-classifier
+  template:
+    metadata:
+      labels:
+        app: iris-classifier
+    spec:
+      containers:
+      - name: iris-api-container # Referenced by kubectl set image command
+        # This is a placeholder value. The GitHub Action (kubectl set image) 
+        # will dynamically replace this entire string with the newly pushed 
+        # Artifact Registry URI tagged with the commit SHA.
+        image: AR_IMAGE_PLACEHOLDER_TO_BE_REPLACED:latest 
+        ports:
+        - containerPort: 8200
+

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: iris-api-service
+  labels:
+    app: iris-classifier
+spec:
+  # Use LoadBalancer type to provision a public IP address through GCP
+  type: LoadBalancer
+  
+  # Selects the Pods with the label 'app: iris-classifier' to direct traffic to
+  selector:
+    app: iris-classifier
+    
+  ports:
+    - protocol: TCP
+      # 'port' is the port exposed by the LoadBalancer (external IP)
+      port: 80 
+      # 'targetPort' is the port the container is listening on (EXPOSE 8200 in Dockerfile)
+      targetPort: 8200 
